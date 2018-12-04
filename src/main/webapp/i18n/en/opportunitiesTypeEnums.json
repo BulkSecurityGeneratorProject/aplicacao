@@ -1,0 +1,10 @@
+{
+    "aplicacaoApp": {
+        "OpportunitiesTypeEnums": {
+            "null": "",
+            "INTERNAL": "INTERNAL",
+            "EXTERNAL": "EXTERNAL",
+            "CONFIDENCIAL": "CONFIDENCIAL"
+        }
+    }
+}

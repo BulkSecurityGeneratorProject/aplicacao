@@ -1,0 +1,72 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="aplicacaoApp.resultsDetails.home.title">Results Details</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-results-details" [routerLink]="['/results-details/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="aplicacaoApp.resultsDetails.home.createLabel">
+            Create new Results Details
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="resultsDetails">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="value"><span jhiTranslate="aplicacaoApp.resultsDetails.value">Value</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="result"><span jhiTranslate="aplicacaoApp.resultsDetails.result">Result</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createdDate"><span jhiTranslate="aplicacaoApp.resultsDetails.createdDate">Created Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="resultsId"><span jhiTranslate="aplicacaoApp.resultsDetails.results">Results</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let resultsDetails of resultsDetails ;trackBy: trackId">
+                <td><a [routerLink]="['/results-details', resultsDetails.id, 'view' ]">{{resultsDetails.id}}</a></td>
+                <td>{{resultsDetails.value}}</td>
+                <td>{{resultsDetails.result}}</td>
+                <td>{{resultsDetails.createdDate | date:'medium'}}</td>
+                <td>
+                    <div *ngIf="resultsDetails.resultsId">
+                        <a [routerLink]="['../results', resultsDetails.resultsId , 'view' ]" >{{resultsDetails.resultsId}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/results-details', resultsDetails.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/results-details', resultsDetails.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'results-details/'+ resultsDetails.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="resultsDetails && resultsDetails.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>
